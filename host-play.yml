@@ -1,0 +1,34 @@
+---
+- name: Playbook for the listed tasks
+  hosts: all
+  become: yes
+
+  tasks:
+  - name: Set hostname
+    hostname:
+      name: "rhos-17.home.lan"
+
+  - name: Update all packages
+    dnf:
+      name: "*"
+      state: latest
+
+  - name: Update grub config
+    command:
+      cmd: grubby --update-kernel=DEFAULT --args="cloud-init=disabled"
+
+  - name: Create directory if it doesn't exist
+    file:
+      path: "/etc/cloud"
+      state: directory
+
+  - name: Create file if it doesn't exist
+    file:
+      path: "/etc/cloud/cloud-init.disabled"
+      state: touch
+
+  - name: Install boom-boot
+    dnf:
+      name: boom-boot
+      state: present
+...
