@@ -113,7 +113,7 @@
         stdin: "{{ network_state | to_nice_json }}"
       vars:
         network_state:
-          interfaces: "{{ nmstate_ifs }}"
+          interfaces: "{{ nmstate_ifs | from_yaml }}"
           # add saved static routes
           routes:
             config: "{{ nmstate_routes }}"
